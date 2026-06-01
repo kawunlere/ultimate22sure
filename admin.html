@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Ultimate22sure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ADMIN LOGIN -->
+<div id="adminLogin" class="admin-login">
+  <div class="admin-box">
+    <div class="lock-icon">◈</div>
+    <h2>Admin Access</h2>
+    <p>Enter password to access dashboard</p>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button class="btn-red full" onclick="loginAdmin()">Login</button>
+    <div id="adminMsg" class="msg"></div>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="adminDash" class="admin-dash" style="display:none;">
+
+  <nav class="admin-nav">
+    <div class="logo-box">
+      <div class="logo-top">Ultimate</div>
+      <div class="logo-bottom"><span class="big2">2</span>sure</div>
+    </div>
+    <button class="btn-outline" onclick="logoutAdmin()">Logout</button>
+  </nav>
+
+  <div class="admin-tabs">
+    <button class="tab-btn active" data-tab="tasks">Tasks</button>
+    <button class="tab-btn" data-tab="users">Users</button>
+    <button class="tab-btn" data-tab="creators">Creators</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+  </div>
+
+  <!-- TASKS TAB -->
+  <div class="tab-content active" id="tab-tasks">
+    <h3>Manage Tasks</h3>
+    <div class="add-task-form">
+      <input type="text" id="newTaskTitle" placeholder="Task Title (e.g. Subscribe to YouTube)">
+      <input type="text" id="newTaskDesc" placeholder="Short Description">
+      <input type="url" id="newTaskUrl" placeholder="https://link.com">
+      <input type="number" id="newTaskTimer" placeholder="Timer in seconds (e.g. 15)" value="15">
+      <button class="btn-red" onclick="addTask()">+ Add Task</button>
+    </div>
+    <div id="adminTaskList" class="admin-list"></div>
+  </div>
+
+  <!-- USERS TAB -->
+  <div class="tab-content" id="tab-users">
+    <h3>Submitted Users (Gmail)</h3>
+    <div id="adminUserList" class="admin-list"></div>
+  </div>
+
+  <!-- CREATORS TAB -->
+  <div class="tab-content" id="tab-creators">
+    <h3>Approve Creators</h3>
+    <p style="color:#888;margin-bottom:15px;">Approve verified users to become creators.</p>
+    <div id="adminCreatorList" class="admin-list"></div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="tab-content" id="tab-settings">
+    <h3>Website Settings</h3>
+    <label>Final Premium Link (after all tasks done):</label>
+    <input type="url" id="finalLinkInput" placeholder="https://your-file-link.com">
+    <button class="btn-red" onclick="saveFinalLink()">Save Link</button>
+    <div id="settingsMsg" class="msg"></div>
+  </div>
+
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
