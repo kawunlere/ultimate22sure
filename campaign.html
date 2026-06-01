@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign - Ultimate22sure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-icons">
+  <span class="bg-icon i1">▶</span>
+  <span class="bg-icon i2">✆</span>
+  <span class="bg-icon i3">✈</span>
+  <span class="bg-icon i4">♥</span>
+  <span class="bg-icon i5">★</span>
+  <span class="bg-icon i6">◆</span>
+  <span class="bg-icon i7">▲</span>
+  <span class="bg-icon i8">●</span>
+</div>
+
+<nav class="navbar">
+  <div class="logo-box">
+    <div class="logo-top">Ultimate</div>
+    <div class="logo-bottom"><span class="big2">2</span>sure</div>
+  </div>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="how.html">How It Works</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="task-section">
+  <div class="task-header">
+    <h2 id="campaignName">Loading Campaign...</h2>
+    <p id="campaignCreator">By Creator</p>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0% Completed</div>
+  </div>
+
+  <div id="campaignNotFound" style="display:none;text-align:center;padding:40px 20px;background:#fff;border-radius:14px;">
+    <div style="font-size:50px;color:#ff2d2d;">⚠</div>
+    <h3 style="color:#0a1d4a;margin:10px 0;">Campaign Not Found</h3>
+    <p style="color:#888;">This campaign link is invalid or has been removed.</p>
+    <a href="index.html" class="btn-red" style="margin-top:15px;display:inline-block;">Go Home</a>
+  </div>
+
+  <div class="task-list" id="taskList"></div>
+
+  <div class="unlock-final" id="unlockFinal" style="display:none;">
+    <h3>◈ All Tasks Completed!</h3>
+    <p>Click below to access the premium link.</p>
+    <a href="#" id="finalLink" class="btn-red full" target="_blank">Get Your Link</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Ultimate22sure. All Rights Reserved.</p>
+</footer>
+
+<script src="campaign.js"></script>
+</body>
+</html>

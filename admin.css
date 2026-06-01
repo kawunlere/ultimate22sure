@@ -1,0 +1,232 @@
+/* ADMIN WRAPPER */
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  background: #0a1d4a;
+  color: #fff;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  transition: 0.3s;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 18px;
+}
+
+.sidebar-logo .logo-top { font-size: 18px; font-weight: 900; color: #fff; }
+.sidebar-logo .logo-bottom { font-size: 22px; font-weight: 900; color: #ff2d2d; display: flex; align-items: center; }
+.sidebar-logo .big2 {
+  font-size: 38px;
+  color: #ff6600;
+  font-weight: 900;
+  font-style: italic;
+  margin-right: 2px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  line-height: 0.8;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.side-btn {
+  background: transparent;
+  color: #cdd5e6;
+  border: none;
+  padding: 11px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.side-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.side-btn.active {
+  background: #ff2d2d;
+  color: #fff;
+}
+
+.logout-btn {
+  background: transparent;
+  color: #ff6600;
+  border: 2px solid #ff6600;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.logout-btn:hover { background: #ff6600; color: #fff; }
+
+/* MAIN */
+.main-area {
+  flex: 1;
+  margin-left: 240px;
+  padding: 18px;
+  transition: 0.3s;
+}
+
+.main-header {
+  background: #fff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+
+.menu-btn {
+  background: #0a1d4a;
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+}
+
+.main-header h2 { color: #0a1d4a; font-size: 18px; }
+
+/* STAT CARDS */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+}
+
+.stat-card h4 {
+  color: #888;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.stat-card span {
+  color: #0a1d4a;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.info-panel {
+  background: linear-gradient(135deg, #0a1d4a, #ff2d2d);
+  color: #fff;
+  padding: 22px;
+  border-radius: 14px;
+}
+
+.info-panel h3 { font-size: 18px; margin-bottom: 6px; }
+.info-panel p { font-size: 13px; opacity: 0.95; }
+
+/* FORM BOX */
+.form-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-box h3 { color: #0a1d4a; font-size: 16px; margin-bottom: 8px; }
+
+.form-box label {
+  font-weight: 600;
+  color: #555;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.form-box input,
+.form-box textarea,
+.form-box select {
+  width: 100%;
+  padding: 10px 13px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-box input:focus,
+.form-box textarea:focus,
+.form-box select:focus { border-color: #ff6600; }
+
+.form-box input[type="color"] {
+  height: 42px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.form-box button { margin-top: 10px; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .main-area {
+    margin-left: 0;
+  }
+  .menu-btn { display: block; }
+}

@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel - Ultimate22sure</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
-<!-- ADMIN LOGIN -->
+<!-- LOGIN -->
 <div id="adminLogin" class="admin-login">
   <div class="admin-box">
     <div class="lock-icon">◈</div>
@@ -20,59 +21,210 @@
   </div>
 </div>
 
-<!-- ADMIN DASHBOARD -->
-<div id="adminDash" class="admin-dash" style="display:none;">
+<!-- DASHBOARD -->
+<div id="adminDash" class="admin-wrapper" style="display:none;">
 
-  <nav class="admin-nav">
-    <div class="logo-box">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
       <div class="logo-top">Ultimate</div>
       <div class="logo-bottom"><span class="big2">2</span>sure</div>
     </div>
-    <button class="btn-outline" onclick="logoutAdmin()">Logout</button>
-  </nav>
+    <nav class="sidebar-nav">
+      <button class="side-btn active" data-tab="dashboard">◆ Dashboard</button>
+      <button class="side-btn" data-tab="tasks">▲ Tasks</button>
+      <button class="side-btn" data-tab="campaigns">★ Campaigns</button>
+      <button class="side-btn" data-tab="users">● Users</button>
+      <button class="side-btn" data-tab="creators">♦ Creators</button>
+      <button class="side-btn" data-tab="content">✎ Page Content</button>
+      <button class="side-btn" data-tab="seo">⚙ SEO Settings</button>
+      <button class="side-btn" data-tab="ads">$ Ads</button>
+      <button class="side-btn" data-tab="settings">⚙ Site Settings</button>
+    </nav>
+    <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+  </aside>
 
-  <div class="admin-tabs">
-    <button class="tab-btn active" data-tab="tasks">Tasks</button>
-    <button class="tab-btn" data-tab="users">Users</button>
-    <button class="tab-btn" data-tab="creators">Creators</button>
-    <button class="tab-btn" data-tab="settings">Settings</button>
-  </div>
+  <!-- MAIN -->
+  <main class="main-area">
 
-  <!-- TASKS TAB -->
-  <div class="tab-content active" id="tab-tasks">
-    <h3>Manage Tasks</h3>
-    <div class="add-task-form">
-      <input type="text" id="newTaskTitle" placeholder="Task Title (e.g. Subscribe to YouTube)">
-      <input type="text" id="newTaskDesc" placeholder="Short Description">
-      <input type="url" id="newTaskUrl" placeholder="https://link.com">
-      <input type="number" id="newTaskTimer" placeholder="Timer in seconds (e.g. 15)" value="15">
-      <button class="btn-red" onclick="addTask()">+ Add Task</button>
+    <header class="main-header">
+      <button class="menu-btn" id="sideToggle">☰</button>
+      <h2 id="pageTitle">Dashboard</h2>
+    </header>
+
+    <!-- DASHBOARD -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#ff2d2d;">●</div>
+          <div><h4>Total Users</h4><span id="statUsers">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#0a1d4a;">▲</div>
+          <div><h4>Total Tasks</h4><span id="statTasks">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#25D366;">★</div>
+          <div><h4>Creators</h4><span id="statCreators">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#ff6600;">◆</div>
+          <div><h4>Campaigns</h4><span id="statCampaigns">0</span></div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h3>Welcome back, Admin</h3>
+        <p>Manage your entire Ultimate22sure platform from here. All changes are saved automatically.</p>
+      </div>
     </div>
-    <div id="adminTaskList" class="admin-list"></div>
-  </div>
 
-  <!-- USERS TAB -->
-  <div class="tab-content" id="tab-users">
-    <h3>Submitted Users (Gmail)</h3>
-    <div id="adminUserList" class="admin-list"></div>
-  </div>
+    <!-- TASKS -->
+    <div class="tab-content" id="tab-tasks">
+      <div class="form-box">
+        <h3>Add New Task</h3>
+        <label>Task Type</label>
+        <select id="taskType">
+          <option value="youtube_sub">YouTube Subscribe</option>
+          <option value="youtube_like">YouTube Like</option>
+          <option value="youtube_comment">YouTube Comment</option>
+          <option value="whatsapp">WhatsApp Channel</option>
+          <option value="telegram">Telegram Channel</option>
+          <option value="instagram">Instagram Follow</option>
+          <option value="tiktok">TikTok Follow</option>
+          <option value="facebook">Facebook Like</option>
+          <option value="twitter">Twitter Follow</option>
+          <option value="custom">Custom Link</option>
+        </select>
+        <label>Task Title</label>
+        <input type="text" id="newTaskTitle" placeholder="e.g. Subscribe to my channel">
+        <label>Description</label>
+        <input type="text" id="newTaskDesc" placeholder="e.g. Click and subscribe">
+        <label>Link URL</label>
+        <input type="url" id="newTaskUrl" placeholder="https://...">
+        <label>Timer (seconds)</label>
+        <input type="number" id="newTaskTimer" value="15">
+        <button class="btn-red" onclick="addTask()">+ Add Task</button>
+      </div>
+      <h3 style="margin-top:25px;">All Tasks</h3>
+      <div id="adminTaskList" class="admin-list"></div>
+    </div>
 
-  <!-- CREATORS TAB -->
-  <div class="tab-content" id="tab-creators">
-    <h3>Approve Creators</h3>
-    <p style="color:#888;margin-bottom:15px;">Approve verified users to become creators.</p>
-    <div id="adminCreatorList" class="admin-list"></div>
-  </div>
+    <!-- CAMPAIGNS -->
+    <div class="tab-content" id="tab-campaigns">
+      <h3>All Campaigns</h3>
+      <p style="color:#888;font-size:13px;margin-bottom:15px;">Campaigns created by you and verified creators.</p>
+      <div id="adminCampaignList" class="admin-list"></div>
+    </div>
 
-  <!-- SETTINGS TAB -->
-  <div class="tab-content" id="tab-settings">
-    <h3>Website Settings</h3>
-    <label>Final Premium Link (after all tasks done):</label>
-    <input type="url" id="finalLinkInput" placeholder="https://your-file-link.com">
-    <button class="btn-red" onclick="saveFinalLink()">Save Link</button>
-    <div id="settingsMsg" class="msg"></div>
-  </div>
+    <!-- USERS -->
+    <div class="tab-content" id="tab-users">
+      <h3>Submitted Users</h3>
+      <div id="adminUserList" class="admin-list"></div>
+    </div>
 
+    <!-- CREATORS -->
+    <div class="tab-content" id="tab-creators">
+      <h3>Approve Creators</h3>
+      <p style="color:#888;font-size:13px;margin-bottom:15px;">Verified creators can build their own campaigns.</p>
+      <div id="adminCreatorList" class="admin-list"></div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="tab-content" id="tab-content">
+      <div class="form-box">
+        <h3>Home Page</h3>
+        <label>Hero Title</label>
+        <input type="text" id="cHeroTitle" placeholder="Unlock Your Premium Files Instantly">
+        <label>Hero Description</label>
+        <textarea id="cHeroDesc" rows="3"></textarea>
+        <label>Counter Number</label>
+        <input type="text" id="cCounter" placeholder="1,240 People Unlocked Today">
+      </div>
+
+      <div class="form-box">
+        <h3>About Page</h3>
+        <label>About Title</label>
+        <input type="text" id="cAboutTitle">
+        <label>About Lead</label>
+        <textarea id="cAboutLead" rows="2"></textarea>
+        <label>Mission</label>
+        <textarea id="cMission" rows="3"></textarea>
+        <label>Vision</label>
+        <textarea id="cVision" rows="3"></textarea>
+      </div>
+
+      <div class="form-box">
+        <h3>Footer</h3>
+        <label>Footer Text</label>
+        <input type="text" id="cFooter" placeholder="© 2026 Ultimate22sure. All Rights Reserved.">
+      </div>
+
+      <button class="btn-red full" onclick="saveContent()">Save All Content</button>
+      <div id="contentMsg" class="msg"></div>
+    </div>
+
+    <!-- SEO -->
+    <div class="tab-content" id="tab-seo">
+      <div class="form-box">
+        <h3>SEO Settings</h3>
+        <label>Site Title</label>
+        <input type="text" id="sTitle" placeholder="Ultimate22sure">
+        <label>Meta Description</label>
+        <textarea id="sDesc" rows="3"></textarea>
+        <label>Keywords</label>
+        <input type="text" id="sKeywords" placeholder="task gateway, unlock content, creators">
+        <label>Open Graph Image URL</label>
+        <input type="url" id="sOgImage" placeholder="https://...">
+        <button class="btn-red full" onclick="saveSEO()">Save SEO</button>
+        <div id="seoMsg" class="msg"></div>
+      </div>
+    </div>
+
+    <!-- ADS -->
+    <div class="tab-content" id="tab-ads">
+      <div class="form-box">
+        <h3>Monetag Code</h3>
+        <textarea id="adMonetag" rows="4" placeholder="Paste Monetag script here"></textarea>
+        <h3 style="margin-top:15px;">PropellerAds Code</h3>
+        <textarea id="adPropeller" rows="4" placeholder="Paste PropellerAds script here"></textarea>
+        <h3 style="margin-top:15px;">Custom Ad Code</h3>
+        <textarea id="adCustom" rows="4" placeholder="Paste any ad code here"></textarea>
+        <button class="btn-red full" onclick="saveAds()">Save Ads</button>
+        <div id="adsMsg" class="msg"></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="tab-content" id="tab-settings">
+      <div class="form-box">
+        <h3>Site Settings</h3>
+        <label>Final Premium Link</label>
+        <input type="url" id="finalLinkInput" placeholder="https://your-file.com">
+
+        <label>Primary Color (Red)</label>
+        <input type="color" id="colorRed" value="#ff2d2d">
+
+        <label>Secondary Color (Blue)</label>
+        <input type="color" id="colorBlue" value="#0a1d4a">
+
+        <label>Accent Color (Orange)</label>
+        <input type="color" id="colorOrange" value="#ff6600">
+
+        <label>Contact Email</label>
+        <input type="email" id="contactEmail" value="kawunlere@gmail.com">
+
+        <label>Maintenance Mode</label>
+        <select id="maintenance">
+          <option value="off">OFF - Site Online</option>
+          <option value="on">ON - Show Maintenance Page</option>
+        </select>
+
+        <button class="btn-red full" onclick="saveSettings()">Save Settings</button>
+        <div id="settingsMsg" class="msg"></div>
+      </div>
+    </div>
+
+  </main>
 </div>
 
 <script src="admin.js"></script>

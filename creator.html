@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Dashboard - Ultimate22sure</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div id="creatorAccess" class="admin-login">
+  <div class="admin-box">
+    <div class="lock-icon">◈</div>
+    <h2>Creator Access Required</h2>
+    <p>Only approved creators can access this dashboard.</p>
+    <button class="btn-red full" onclick="window.location.href='unlock.html'">Unlock Access</button>
+    <p style="margin-top:15px;font-size:12px;">Contact <a href="mailto:kawunlere@gmail.com" style="color:#ff2d2d;">kawunlere@gmail.com</a> to be approved as a creator.</p>
+  </div>
+</div>
+
+<div id="creatorDash" class="admin-wrapper" style="display:none;">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-top">Ultimate</div>
+      <div class="logo-bottom"><span class="big2">2</span>sure</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="side-btn active" data-tab="my-dash">◆ My Dashboard</button>
+      <button class="side-btn" data-tab="my-campaigns">★ My Campaigns</button>
+      <button class="side-btn" data-tab="new-campaign">+ New Campaign</button>
+      <button class="side-btn" data-tab="my-profile">● My Profile</button>
+    </nav>
+    <button class="logout-btn" onclick="creatorLogout()">Logout</button>
+  </aside>
+
+  <main class="main-area">
+    <header class="main-header">
+      <button class="menu-btn" id="cSideToggle">☰</button>
+      <h2 id="cPageTitle">Creator Dashboard</h2>
+    </header>
+
+    <div class="tab-content active" id="tab-my-dash">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#ff2d2d;">★</div>
+          <div><h4>My Campaigns</h4><span id="myCampaignCount">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#0a1d4a;">●</div>
+          <div><h4>Total Visitors</h4><span id="myVisitors">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#25D366;">◆</div>
+          <div><h4>Completed</h4><span id="myCompleted">0</span></div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h3>Welcome, <span id="creatorEmail">Creator</span></h3>
+        <p>Build your own task campaigns and share with your fans to grow your audience.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-my-campaigns">
+      <h3>My Campaigns</h3>
+      <div id="myCampaignList" class="admin-list"></div>
+    </div>
+
+    <div class="tab-content" id="tab-new-campaign">
+      <div class="form-box">
+        <h3>Create New Campaign</h3>
+        <label>Campaign Name</label>
+        <input type="text" id="cmpName" placeholder="e.g. My Music Video Launch">
+        <label>Final Premium Link</label>
+        <input type="url" id="cmpFinalLink" placeholder="https://your-file-link.com">
+        <button class="btn-red" onclick="createCampaign()">Create Campaign</button>
+      </div>
+
+      <div class="form-box" id="addTasksBox" style="display:none;">
+        <h3>Add Tasks to Campaign</h3>
+        <p style="color:#888;font-size:12px;">Add unlimited tasks. Click 'Done' when finished.</p>
+        <label>Task Type</label>
+        <select id="cmpTaskType">
+          <option value="youtube_sub">YouTube Subscribe</option>
+          <option value="youtube_like">YouTube Like</option>
+          <option value="youtube_comment">YouTube Comment</option>
+          <option value="whatsapp">WhatsApp Channel</option>
+          <option value="telegram">Telegram Channel</option>
+          <option value="instagram">Instagram Follow</option>
+          <option value="tiktok">TikTok Follow</option>
+          <option value="facebook">Facebook Like</option>
+          <option value="twitter">Twitter Follow</option>
+          <option value="custom">Custom Link</option>
+        </select>
+        <label>Task Title</label>
+        <input type="text" id="cmpTaskTitle">
+        <label>Description</label>
+        <input type="text" id="cmpTaskDesc">
+        <label>Link URL</label>
+        <input type="url" id="cmpTaskUrl">
+        <label>Timer (seconds)</label>
+        <input type="number" id="cmpTaskTimer" value="15">
+        <button class="btn-red" onclick="addCampaignTask()">+ Add Task</button>
+        <div id="cmpTaskList" style="margin-top:10px;"></div>
+        <button class="btn-red full" onclick="finishCampaign()" style="background:#25D366;box-shadow:0 6px 18px rgba(37,211,102,0.3);">Done - Publish Campaign</button>
+        <div id="cmpMsg" class="msg"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-my-profile">
+      <div class="form-box">
+        <h3>My Profile</h3>
+        <label>Email</label>
+        <input type="email" id="profileEmail" readonly>
+        <label>Status</label>
+        <input type="text" value="★ Verified Creator" readonly>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="creator.js"></script>
+</body>
+</html>
