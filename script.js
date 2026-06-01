@@ -64,29 +64,35 @@ if (window.location.pathname.includes('tasks.html') || window.location.pathname.
   }
 }
 
-// TASK SYSTEM
+// TASK SYSTEM - NO DEFAULT TASKS
 const taskList = document.getElementById('taskList');
 const progressBar = document.getElementById('progressBar');
 const progressText = document.getElementById('progressText');
 const unlockFinal = document.getElementById('unlockFinal');
 const finalLink = document.getElementById('finalLink');
 
-// Default tasks (admin can change later)
-const defaultTasks = [
-  { id: 1, title: "Subscribe to YouTube Channel", desc: "Click and subscribe", url: "https://youtube.com", timer: 15 },
-  { id: 2, title: "Join WhatsApp Channel", desc: "Click and join", url: "https://whatsapp.com", timer: 15 },
-  { id: 3, title: "Join Telegram Channel", desc: "Click and join", url: "https://telegram.org", timer: 15 },
-  { id: 4, title: "Like the Video", desc: "Click like button", url: "https://youtube.com", timer: 15 },
-  { id: 5, title: "Comment on Video", desc: "Drop a comment", url: "https://youtube.com", timer: 15 }
-];
-
-// Load tasks from admin or use default
-let tasks = JSON.parse(localStorage.getItem('u22_tasks')) || defaultTasks;
-let finalUrl = localStorage.getItem('u22_finalLink') || "https://example.com/your-file";
+let tasks = JSON.parse(localStorage.getItem('u22_tasks')) || [];
+let finalUrl = localStorage.getItem('u22_finalLink') || "#";
 let completed = JSON.parse(localStorage.getItem('u22_completed')) || [];
 
 if (taskList) {
-  renderTasks();
+  if (tasks.length === 0) {
+    showEmptyTasks();
+  } else {
+    renderTasks();
+  }
+}
+
+function showEmptyTasks() {
+  taskList.innerHTML = `
+    <div class="empty-tasks">
+      <div class="icon">◈</div>
+      <h3>No Tasks Available</h3>
+      <p>There are no active campaigns right now. Check back later!</p>
+    </div>
+  `;
+  if (progressBar) progressBar.style.width = '0%';
+  if (progressText) progressText.textContent = 'No tasks available';
 }
 
 function renderTasks() {
@@ -125,10 +131,8 @@ function handleTask(e) {
 
   if (completed.includes(id)) return;
 
-  // Open link
   window.open(url, '_blank');
 
-  // Start countdown
   btn.classList.add('verifying');
   btn.disabled = true;
   let count = timer;
@@ -151,12 +155,13 @@ function handleTask(e) {
 }
 
 function updateProgress() {
+  if (!tasks.length) return;
   const percent = Math.round((completed.length / tasks.length) * 100);
-  progressBar.style.width = percent + '%';
-  progressText.textContent = percent + '% Completed';
+  if (progressBar) progressBar.style.width = percent + '%';
+  if (progressText) progressText.textContent = percent + '% Completed';
 
-  if (percent === 100) {
+  if (percent === 100 && unlockFinal) {
     unlockFinal.style.display = 'block';
-    finalLink.href = finalUrl;
+    if (finalLink) finalLink.href = finalUrl;
   }
 }
