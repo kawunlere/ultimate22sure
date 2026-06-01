@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks - Ultimate22sure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND ICONS -->
+<div class="bg-icons">
+  <span class="bg-icon i1">▶</span>
+  <span class="bg-icon i2">✆</span>
+  <span class="bg-icon i3">✈</span>
+  <span class="bg-icon i4">♥</span>
+  <span class="bg-icon i5">★</span>
+  <span class="bg-icon i6">◆</span>
+  <span class="bg-icon i7">▲</span>
+  <span class="bg-icon i8">●</span>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="navbar">
+  <div class="logo-box">
+    <div class="logo-top">Ultimate</div>
+    <div class="logo-bottom"><span class="big2">2</span>sure</div>
+  </div>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="tasks.html">Campaigns</a></li>
+    <li><a href="creator.html">Creator</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- TASK SECTION -->
+<section class="task-section">
+  <div class="task-header">
+    <h2>Complete All Tasks To Unlock</h2>
+    <p>Finish every task below to receive your premium link.</p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0% Completed</div>
+  </div>
+
+  <div class="task-list" id="taskList">
+    <!-- Tasks loaded dynamically -->
+  </div>
+
+  <div class="unlock-final" id="unlockFinal" style="display:none;">
+    <h3>◈ All Tasks Completed!</h3>
+    <p>Click below to access your premium link.</p>
+    <a href="#" id="finalLink" class="btn-red full" target="_blank">Get Your Link</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Ultimate22sure. All Rights Reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
