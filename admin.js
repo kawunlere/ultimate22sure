@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sideToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
   }
 
-  // TAB SWITCH
   document.querySelectorAll('.side-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
@@ -52,23 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // LOAD ALL
-function loadAll() {
-  loadStats();
-  loadTasks();
-  loadCampaigns();
-  loadUsers();
-  loadCreators();
-  loadContent();
-  loadSEO();
-  loadAds();
-  loadSettings();
+async function loadAll() {
+  await loadStats();
+  await loadTasks();
+  await loadCampaigns();
+  await loadUsers();
+  await loadCreators();
+  await loadContent();
+  await loadSEO();
+  await loadAds();
+  await loadSettings();
 }
 
 // STATS
-function loadStats() {
-  const users = JSON.parse(localStorage.getItem('u22_users')) || [];
-  const tasks = JSON.parse(localStorage.getItem('u22_tasks')) || [];
-  const campaigns = JSON.parse(localStorage.getItem('u22_campaigns')) || [];
+async function loadStats() {
+  const users = await getUsers();
+  const tasks = await getTasks();
+  const campaigns = await getCampaigns();
   const creators = users.filter(u => u.creator).length;
 
   document.getElementById('statUsers').textContent = users.length;
@@ -77,7 +76,7 @@ function loadStats() {
   document.getElementById('statCampaigns').textContent = campaigns.length;
 }
 
-// TASKS
+// TASK LABELS
 const taskTypeLabels = {
   youtube_sub: 'YouTube Subscribe',
   youtube_like: 'YouTube Like',
@@ -91,9 +90,10 @@ const taskTypeLabels = {
   custom: 'Custom'
 };
 
-function loadTasks() {
+// TASKS
+async function loadTasks() {
   const list = document.getElementById('adminTaskList');
-  let tasks = JSON.parse(localStorage.getItem('u22_tasks')) || [];
+  const tasks = await getTasks();
   list.innerHTML = '';
 
   if (tasks.length === 0) {
@@ -118,7 +118,7 @@ function loadTasks() {
   });
 }
 
-function addTask() {
+async function addTask() {
   const type = document.getElementById('taskType').value;
   const title = document.getElementById('newTaskTitle').value.trim();
   const desc = document.getElementById('newTaskDesc').value.trim();
@@ -130,36 +130,36 @@ function addTask() {
     return;
   }
 
-  let tasks = JSON.parse(localStorage.getItem('u22_tasks')) || [];
+  let tasks = await getTasks();
   tasks.push({ id: Date.now(), type, title, desc, url, timer });
-  localStorage.setItem('u22_tasks', JSON.stringify(tasks));
+  await saveTasks(tasks);
 
   document.getElementById('newTaskTitle').value = '';
   document.getElementById('newTaskDesc').value = '';
   document.getElementById('newTaskUrl').value = '';
   document.getElementById('newTaskTimer').value = '15';
 
-  loadTasks();
-  loadStats();
+  await loadTasks();
+  await loadStats();
 }
 
-function deleteTask(id) {
+async function deleteTask(id) {
   if (!confirm("Delete this task?")) return;
-  let tasks = JSON.parse(localStorage.getItem('u22_tasks')) || [];
+  let tasks = await getTasks();
   tasks = tasks.filter(t => t.id !== id);
-  localStorage.setItem('u22_tasks', JSON.stringify(tasks));
-  loadTasks();
-  loadStats();
+  await saveTasks(tasks);
+  await loadTasks();
+  await loadStats();
 }
 
 // CAMPAIGNS
-function loadCampaigns() {
+async function loadCampaigns() {
   const list = document.getElementById('adminCampaignList');
-  let campaigns = JSON.parse(localStorage.getItem('u22_campaigns')) || [];
+  const campaigns = await getCampaigns();
   list.innerHTML = '';
 
   if (campaigns.length === 0) {
-    list.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No campaigns yet. Campaigns appear when creators build them.</p>';
+    list.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No campaigns yet.</p>';
     return;
   }
 
@@ -169,7 +169,7 @@ function loadCampaigns() {
     div.innerHTML = `
       <div class="admin-item-info">
         <h4>${c.name}</h4>
-        <p>By: ${c.creator} • Link: /c/${c.id}</p>
+        <p>By: ${c.creator} • Tasks: ${c.tasks.length} • Visitors: ${c.visitors || 0}</p>
       </div>
       <div class="admin-actions">
         <button class="btn-mini app" onclick="viewCampaign('${c.id}')">View</button>
@@ -184,19 +184,19 @@ function viewCampaign(id) {
   window.open('campaign.html?id=' + id, '_blank');
 }
 
-function deleteCampaign(id) {
+async function deleteCampaign(id) {
   if (!confirm("Delete this campaign?")) return;
-  let campaigns = JSON.parse(localStorage.getItem('u22_campaigns')) || [];
+  let campaigns = await getCampaigns();
   campaigns = campaigns.filter(c => c.id !== id);
-  localStorage.setItem('u22_campaigns', JSON.stringify(campaigns));
-  loadCampaigns();
-  loadStats();
+  await saveCampaigns(campaigns);
+  await loadCampaigns();
+  await loadStats();
 }
 
 // USERS
-function loadUsers() {
+async function loadUsers() {
   const list = document.getElementById('adminUserList');
-  let users = JSON.parse(localStorage.getItem('u22_users')) || [];
+  const users = await getUsers();
   list.innerHTML = '';
 
   if (users.length === 0) {
@@ -221,20 +221,20 @@ function loadUsers() {
   });
 }
 
-function deleteUser(email) {
+async function deleteUser(email) {
   if (!confirm("Remove this user?")) return;
-  let users = JSON.parse(localStorage.getItem('u22_users')) || [];
+  let users = await getUsers();
   users = users.filter(u => u.email !== email);
-  localStorage.setItem('u22_users', JSON.stringify(users));
-  loadUsers();
-  loadCreators();
-  loadStats();
+  await saveUsers(users);
+  await loadUsers();
+  await loadCreators();
+  await loadStats();
 }
 
 // CREATORS
-function loadCreators() {
+async function loadCreators() {
   const list = document.getElementById('adminCreatorList');
-  let users = JSON.parse(localStorage.getItem('u22_users')) || [];
+  const users = await getUsers();
   list.innerHTML = '';
 
   if (users.length === 0) {
@@ -252,8 +252,7 @@ function loadCreators() {
       </div>
       <div class="admin-actions">
         ${u.creator
-          ? `<button class="btn-mini blk" onclick="toggleCreator('${u.email}', false)">Revoke</button>
-             <button class="btn-mini app" onclick="loginAsCreator('${u.email}')">View Dashboard</button>`
+          ? `<button class="btn-mini blk" onclick="toggleCreator('${u.email}', false)">Revoke</button>`
           : `<button class="btn-mini app" onclick="toggleCreator('${u.email}', true)">Approve</button>`
         }
       </div>
@@ -262,28 +261,21 @@ function loadCreators() {
   });
 }
 
-function toggleCreator(email, status) {
-  let users = JSON.parse(localStorage.getItem('u22_users')) || [];
+async function toggleCreator(email, status) {
+  let users = await getUsers();
   users = users.map(u => {
     if (u.email === email) u.creator = status;
     return u;
   });
-  localStorage.setItem('u22_users', JSON.stringify(users));
-  loadCreators();
-  loadUsers();
-  loadStats();
-}
-
-function loginAsCreator(email) {
-  localStorage.setItem('u22_currentUser', email);
-  localStorage.setItem('u22_unlocked', 'true');
-  localStorage.setItem('u22_adminOverride', 'true');
-  window.open('creator.html', '_blank');
+  await saveUsers(users);
+  await loadCreators();
+  await loadUsers();
+  await loadStats();
 }
 
 // CONTENT
-function loadContent() {
-  const c = JSON.parse(localStorage.getItem('u22_content')) || {};
+async function loadContent() {
+  const c = await getContent();
   document.getElementById('cHeroTitle').value = c.heroTitle || '';
   document.getElementById('cHeroDesc').value = c.heroDesc || '';
   document.getElementById('cCounter').value = c.counter || '';
@@ -294,7 +286,7 @@ function loadContent() {
   document.getElementById('cFooter').value = c.footer || '';
 }
 
-function saveContent() {
+async function saveContentBtn() {
   const content = {
     heroTitle: document.getElementById('cHeroTitle').value,
     heroDesc: document.getElementById('cHeroDesc').value,
@@ -305,52 +297,54 @@ function saveContent() {
     vision: document.getElementById('cVision').value,
     footer: document.getElementById('cFooter').value
   };
-  localStorage.setItem('u22_content', JSON.stringify(content));
+  await saveContent(content);
   showMsg('contentMsg', 'Content saved!', 'success');
 }
 
 // SEO
-function loadSEO() {
-  const s = JSON.parse(localStorage.getItem('u22_seo')) || {};
+async function loadSEO() {
+  const s = await getSEO();
   document.getElementById('sTitle').value = s.title || '';
   document.getElementById('sDesc').value = s.desc || '';
   document.getElementById('sKeywords').value = s.keywords || '';
   document.getElementById('sOgImage').value = s.ogImage || '';
 }
 
-function saveSEO() {
+async function saveSEOBtn() {
   const seo = {
     title: document.getElementById('sTitle').value,
     desc: document.getElementById('sDesc').value,
     keywords: document.getElementById('sKeywords').value,
     ogImage: document.getElementById('sOgImage').value
   };
-  localStorage.setItem('u22_seo', JSON.stringify(seo));
+  await saveSEO(seo);
   showMsg('seoMsg', 'SEO saved!', 'success');
 }
 
 // ADS
-function loadAds() {
-  const a = JSON.parse(localStorage.getItem('u22_ads')) || {};
+async function loadAds() {
+  const a = await getAds();
   document.getElementById('adMonetag').value = a.monetag || '';
   document.getElementById('adPropeller').value = a.propeller || '';
   document.getElementById('adCustom').value = a.custom || '';
 }
 
-function saveAds() {
+async function saveAdsBtn() {
   const ads = {
     monetag: document.getElementById('adMonetag').value,
     propeller: document.getElementById('adPropeller').value,
     custom: document.getElementById('adCustom').value
   };
-  localStorage.setItem('u22_ads', JSON.stringify(ads));
+  await saveAds(ads);
   showMsg('adsMsg', 'Ads saved!', 'success');
 }
 
 // SETTINGS
-function loadSettings() {
-  document.getElementById('finalLinkInput').value = localStorage.getItem('u22_finalLink') || '';
-  const s = JSON.parse(localStorage.getItem('u22_settings')) || {};
+async function loadSettings() {
+  const link = await getFinalLink();
+  document.getElementById('finalLinkInput').value = link === '#' ? '' : link;
+  
+  const s = await getSettings();
   document.getElementById('colorRed').value = s.colorRed || '#ff2d2d';
   document.getElementById('colorBlue').value = s.colorBlue || '#0a1d4a';
   document.getElementById('colorOrange').value = s.colorOrange || '#ff6600';
@@ -358,9 +352,9 @@ function loadSettings() {
   document.getElementById('maintenance').value = s.maintenance || 'off';
 }
 
-function saveSettings() {
+async function saveSettingsBtn() {
   const link = document.getElementById('finalLinkInput').value.trim();
-  if (link) localStorage.setItem('u22_finalLink', link);
+  if (link) await saveFinalLink(link);
 
   const settings = {
     colorRed: document.getElementById('colorRed').value,
@@ -369,7 +363,7 @@ function saveSettings() {
     contactEmail: document.getElementById('contactEmail').value,
     maintenance: document.getElementById('maintenance').value
   };
-  localStorage.setItem('u22_settings', JSON.stringify(settings));
+  await saveSettings(settings);
   showMsg('settingsMsg', 'Settings saved!', 'success');
 }
 

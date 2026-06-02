@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="adminLogin" class="admin-login">
   <div class="admin-box">
     <div class="lock-icon">◈</div>
@@ -22,10 +21,8 @@
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="adminDash" class="admin-wrapper" style="display:none;">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-top">Ultimate</div>
@@ -45,7 +42,6 @@
     <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
   </aside>
 
-  <!-- MAIN -->
   <main class="main-area">
 
     <header class="main-header">
@@ -53,7 +49,6 @@
       <h2 id="pageTitle">Dashboard</h2>
     </header>
 
-    <!-- DASHBOARD -->
     <div class="tab-content active" id="tab-dashboard">
       <div class="stat-grid">
         <div class="stat-card">
@@ -75,11 +70,10 @@
       </div>
       <div class="info-panel">
         <h3>Welcome back, Admin</h3>
-        <p>Manage your entire Ultimate22sure platform from here. All changes are saved automatically.</p>
+        <p>Manage your entire Ultimate22sure platform from here. All data syncs globally via Cloudflare KV.</p>
       </div>
     </div>
 
-    <!-- TASKS -->
     <div class="tab-content" id="tab-tasks">
       <div class="form-box">
         <h3>Add New Task</h3>
@@ -110,38 +104,33 @@
       <div id="adminTaskList" class="admin-list"></div>
     </div>
 
-    <!-- CAMPAIGNS -->
     <div class="tab-content" id="tab-campaigns">
       <h3>All Campaigns</h3>
       <p style="color:#888;font-size:13px;margin-bottom:15px;">Campaigns created by you and verified creators.</p>
       <div id="adminCampaignList" class="admin-list"></div>
     </div>
 
-    <!-- USERS -->
     <div class="tab-content" id="tab-users">
       <h3>Submitted Users</h3>
       <div id="adminUserList" class="admin-list"></div>
     </div>
 
-    <!-- CREATORS -->
     <div class="tab-content" id="tab-creators">
       <h3>Approve Creators</h3>
       <p style="color:#888;font-size:13px;margin-bottom:15px;">Verified creators can build their own campaigns.</p>
       <div id="adminCreatorList" class="admin-list"></div>
     </div>
 
-    <!-- PAGE CONTENT -->
     <div class="tab-content" id="tab-content">
       <div class="form-box">
         <h3>Home Page</h3>
         <label>Hero Title</label>
-        <input type="text" id="cHeroTitle" placeholder="Unlock Your Premium Files Instantly">
+        <input type="text" id="cHeroTitle">
         <label>Hero Description</label>
         <textarea id="cHeroDesc" rows="3"></textarea>
-        <label>Counter Number</label>
-        <input type="text" id="cCounter" placeholder="1,240 People Unlocked Today">
+        <label>Counter Text</label>
+        <input type="text" id="cCounter">
       </div>
-
       <div class="form-box">
         <h3>About Page</h3>
         <label>About Title</label>
@@ -153,74 +142,63 @@
         <label>Vision</label>
         <textarea id="cVision" rows="3"></textarea>
       </div>
-
       <div class="form-box">
         <h3>Footer</h3>
         <label>Footer Text</label>
-        <input type="text" id="cFooter" placeholder="© 2026 Ultimate22sure. All Rights Reserved.">
+        <input type="text" id="cFooter">
       </div>
-
-      <button class="btn-red full" onclick="saveContent()">Save All Content</button>
+      <button class="btn-red full" onclick="saveContentBtn()">Save All Content</button>
       <div id="contentMsg" class="msg"></div>
     </div>
 
-    <!-- SEO -->
     <div class="tab-content" id="tab-seo">
       <div class="form-box">
         <h3>SEO Settings</h3>
         <label>Site Title</label>
-        <input type="text" id="sTitle" placeholder="Ultimate22sure">
+        <input type="text" id="sTitle">
         <label>Meta Description</label>
         <textarea id="sDesc" rows="3"></textarea>
         <label>Keywords</label>
-        <input type="text" id="sKeywords" placeholder="task gateway, unlock content, creators">
+        <input type="text" id="sKeywords">
         <label>Open Graph Image URL</label>
-        <input type="url" id="sOgImage" placeholder="https://...">
-        <button class="btn-red full" onclick="saveSEO()">Save SEO</button>
+        <input type="url" id="sOgImage">
+        <button class="btn-red full" onclick="saveSEOBtn()">Save SEO</button>
         <div id="seoMsg" class="msg"></div>
       </div>
     </div>
 
-    <!-- ADS -->
     <div class="tab-content" id="tab-ads">
       <div class="form-box">
         <h3>Monetag Code</h3>
-        <textarea id="adMonetag" rows="4" placeholder="Paste Monetag script here"></textarea>
+        <textarea id="adMonetag" rows="4" placeholder="Paste Monetag script"></textarea>
         <h3 style="margin-top:15px;">PropellerAds Code</h3>
-        <textarea id="adPropeller" rows="4" placeholder="Paste PropellerAds script here"></textarea>
+        <textarea id="adPropeller" rows="4" placeholder="Paste PropellerAds script"></textarea>
         <h3 style="margin-top:15px;">Custom Ad Code</h3>
-        <textarea id="adCustom" rows="4" placeholder="Paste any ad code here"></textarea>
-        <button class="btn-red full" onclick="saveAds()">Save Ads</button>
+        <textarea id="adCustom" rows="4" placeholder="Paste any ad code"></textarea>
+        <button class="btn-red full" onclick="saveAdsBtn()">Save Ads</button>
         <div id="adsMsg" class="msg"></div>
       </div>
     </div>
 
-    <!-- SETTINGS -->
     <div class="tab-content" id="tab-settings">
       <div class="form-box">
         <h3>Site Settings</h3>
         <label>Final Premium Link</label>
-        <input type="url" id="finalLinkInput" placeholder="https://your-file.com">
-
+        <input type="url" id="finalLinkInput">
         <label>Primary Color (Red)</label>
         <input type="color" id="colorRed" value="#ff2d2d">
-
         <label>Secondary Color (Blue)</label>
         <input type="color" id="colorBlue" value="#0a1d4a">
-
         <label>Accent Color (Orange)</label>
         <input type="color" id="colorOrange" value="#ff6600">
-
         <label>Contact Email</label>
         <input type="email" id="contactEmail" value="kawunlere@gmail.com">
-
         <label>Maintenance Mode</label>
         <select id="maintenance">
           <option value="off">OFF - Site Online</option>
           <option value="on">ON - Show Maintenance Page</option>
         </select>
-
-        <button class="btn-red full" onclick="saveSettings()">Save Settings</button>
+        <button class="btn-red full" onclick="saveSettingsBtn()">Save Settings</button>
         <div id="settingsMsg" class="msg"></div>
       </div>
     </div>
@@ -228,6 +206,7 @@
   </main>
 </div>
 
+<script src="api.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
