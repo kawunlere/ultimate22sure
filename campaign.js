@@ -27,6 +27,12 @@ let completed = JSON.parse(localStorage.getItem('u22_cmp_completed_' + campaignI
   }
   document.getElementById('campaignName').textContent = campaign.name;
   document.getElementById('campaignCreator').textContent = 'Created by ' + campaign.creator;
+  
+  // Clean completed list
+  const validIds = campaign.tasks.map(t => t.id);
+  completed = completed.filter(id => validIds.includes(id));
+  localStorage.setItem('u22_cmp_completed_' + campaignId, JSON.stringify(completed));
+  
   const visitorKey = 'u22_visited_' + campaign.id;
   if (!sessionStorage.getItem(visitorKey)) {
     sessionStorage.setItem(visitorKey, 'true');
@@ -47,7 +53,24 @@ function renderCampaignTasks() {
     taskList.appendChild(item);
   });
   document.querySelectorAll('.task-btn').forEach(btn => btn.addEventListener('click', handleTask));
+  
+  // Reset button
+  if (completed.length > 0) {
+    const resetDiv = document.createElement('div');
+    resetDiv.style.cssText = 'text-align:center;margin-top:15px;';
+    resetDiv.innerHTML = `<button class="btn-outline" onclick="resetCampaignTasks()" style="font-size:12px;padding:8px 16px;">Reset My Progress</button>`;
+    taskList.appendChild(resetDiv);
+  }
+  
   updateProgress();
+}
+
+function resetCampaignTasks() {
+  if (!confirm("Reset all your task progress?")) return;
+  completed = [];
+  localStorage.removeItem('u22_cmp_completed_' + campaignId);
+  if (unlockFinal) unlockFinal.style.display = 'none';
+  renderCampaignTasks();
 }
 
 function handleTask(e) {
@@ -73,6 +96,7 @@ function handleTask(e) {
       btn.textContent = '✓ Done';
       btn.closest('.task-item').classList.add('done');
       updateProgress();
+      renderCampaignTasks();
     }
   }, 1000);
 }

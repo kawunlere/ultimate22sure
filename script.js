@@ -89,7 +89,7 @@ if (window.location.pathname.includes('tasks.html')) {
   if (!localStorage.getItem('u22_unlocked')) window.location.href = "unlock.html";
 }
 
-// TASK SYSTEM
+// TASK SYSTEM - STABLE VERSION
 const taskList = document.getElementById('taskList');
 const progressBar = document.getElementById('progressBar');
 const progressText = document.getElementById('progressText');
@@ -103,8 +103,15 @@ if (taskList && !window.location.pathname.includes('campaign.html')) {
   (async () => {
     tasks = await getTasks();
     finalUrl = await getFinalLink();
-    if (tasks.length === 0) showEmptyTasks();
-    else renderTasks();
+    if (tasks.length === 0) {
+      showEmptyTasks();
+    } else {
+      // Clean completed list - remove IDs that don't exist anymore
+      const validIds = tasks.map(t => t.id);
+      completed = completed.filter(id => validIds.includes(id));
+      localStorage.setItem('u22_completed', JSON.stringify(completed));
+      renderTasks();
+    }
   })();
 }
 
@@ -124,7 +131,24 @@ function renderTasks() {
     taskList.appendChild(item);
   });
   document.querySelectorAll('.task-btn').forEach(btn => btn.addEventListener('click', handleTask));
+  
+  // Add Reset button
+  if (completed.length > 0) {
+    const resetDiv = document.createElement('div');
+    resetDiv.style.cssText = 'text-align:center;margin-top:15px;';
+    resetDiv.innerHTML = `<button class="btn-outline" onclick="resetTasks()" style="font-size:12px;padding:8px 16px;">Reset My Progress</button>`;
+    taskList.appendChild(resetDiv);
+  }
+  
   updateProgress();
+}
+
+function resetTasks() {
+  if (!confirm("Reset all your task progress? You'll need to complete tasks again.")) return;
+  completed = [];
+  localStorage.removeItem('u22_completed');
+  if (unlockFinal) unlockFinal.style.display = 'none';
+  renderTasks();
 }
 
 function handleTask(e) {
@@ -150,6 +174,7 @@ function handleTask(e) {
       btn.textContent = '✓ Done';
       btn.closest('.task-item').classList.add('done');
       updateProgress();
+      renderTasks();
     }
   }, 1000);
 }
